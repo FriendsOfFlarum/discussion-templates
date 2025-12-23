@@ -1,24 +1,24 @@
 <?php
 
 /*
- * This file is part of askvortsov/flarum-discussion-templates
+ * This file is part of fof/discussion-templates
  *
- *  Copyright (c) 2021 Alexander Skvortsov.
+ * Copyright (c) Alexander Skvortsov, FriendsOfFlarum
  *
- *  For detailed copyright and license information, please view the
- *  LICENSE file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace FoF\DiscussionTemplates;
 
-use FoF\DiscussionTemplates\Access\DiscussionPolicy;
-use FoF\DiscussionTemplates\Listener\SaveReplyTemplateToDatabase;
 use Flarum\Api\Serializer\DiscussionSerializer;
 use Flarum\Discussion\Discussion;
 use Flarum\Discussion\Event\Saving;
 use Flarum\Extend;
 use Flarum\Tags\Api\Serializer\TagSerializer;
 use Flarum\Tags\Tag;
+use FoF\DiscussionTemplates\Access\DiscussionPolicy;
+use FoF\DiscussionTemplates\Listener\SaveReplyTemplateToDatabase;
 
 return [
     (new Extend\Frontend('forum'))

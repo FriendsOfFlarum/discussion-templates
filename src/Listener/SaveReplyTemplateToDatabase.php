@@ -1,12 +1,12 @@
 <?php
 
 /*
- * This file is part of askvortsov/flarum-discussion-templates
+ * This file is part of fof/discussion-templates
  *
- *  Copyright (c) 2021 Alexander Skvortsov.
+ * Copyright (c) Alexander Skvortsov, FriendsOfFlarum
  *
- *  For detailed copyright and license information, please view the
- *  LICENSE file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace FoF\DiscussionTemplates\Listener;
