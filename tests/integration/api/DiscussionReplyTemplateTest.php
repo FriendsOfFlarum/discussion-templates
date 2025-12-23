@@ -12,9 +12,9 @@
 namespace FoF\DiscussionTemplates\Tests\integration\api;
 
 use Carbon\Carbon;
+use Flarum\Extend;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
-use Flarum\Extend;
 
 class DiscussionReplyTemplateTest extends TestCase
 {
@@ -63,7 +63,7 @@ class DiscussionReplyTemplateTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/discussions/1', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'replyTemplate' => $template,
@@ -92,7 +92,7 @@ class DiscussionReplyTemplateTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/discussions/1', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'replyTemplate' => 'Test template',
@@ -117,12 +117,12 @@ class DiscussionReplyTemplateTest extends TestCase
             ],
         ]);
 
-        $template = "Moderator template";
+        $template = 'Moderator template';
 
         $response = $this->send(
             $this->request('PATCH', '/api/discussions/1', [
                 'authenticatedAs' => 3,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'replyTemplate' => $template,
@@ -146,7 +146,7 @@ class DiscussionReplyTemplateTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/discussions/2', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'replyTemplate' => 'Unauthorized template',
@@ -165,7 +165,7 @@ class DiscussionReplyTemplateTest extends TestCase
     public function guest_cannot_set_reply_template()
     {
         $this->extend((new Extend\Csrf())->exemptRoute('discussions.update'));
-        
+
         $response = $this->send(
             $this->request('PATCH', '/api/discussions/1', [
                 'json' => [
@@ -224,7 +224,7 @@ class DiscussionReplyTemplateTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/discussions/1', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'replyTemplate' => '',

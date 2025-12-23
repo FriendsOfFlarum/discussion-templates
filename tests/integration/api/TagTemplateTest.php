@@ -11,9 +11,9 @@
 
 namespace FoF\DiscussionTemplates\Tests\integration\api;
 
+use Flarum\Extend;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
-use Flarum\Extend;
 
 class TagTemplateTest extends TestCase
 {
@@ -46,7 +46,7 @@ class TagTemplateTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/tags/1/template', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'template' => $template,
                     ],
@@ -73,7 +73,7 @@ class TagTemplateTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/tags/1/template', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'template' => 'Test template',
                     ],
@@ -90,7 +90,7 @@ class TagTemplateTest extends TestCase
     public function guest_cannot_set_tag_template()
     {
         $this->extend((new Extend\Csrf())->exemptRoute('tags.updateTemplate'));
-        
+
         $response = $this->send(
             $this->request('PATCH', '/api/tags/1/template', [
                 'json' => [
@@ -147,7 +147,7 @@ class TagTemplateTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/tags/1/template', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'template' => '',
                     ],
@@ -169,7 +169,7 @@ class TagTemplateTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/tags/999/template', [
                 'authenticatedAs' => 1,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'template' => 'Test',
                     ],

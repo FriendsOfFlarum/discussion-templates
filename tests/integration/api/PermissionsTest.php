@@ -64,7 +64,7 @@ class PermissionsTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/discussions/1', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'replyTemplate' => 'Own template',
@@ -91,7 +91,7 @@ class PermissionsTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/discussions/2', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'replyTemplate' => 'Unauthorized',
@@ -120,7 +120,7 @@ class PermissionsTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/discussions/2', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'replyTemplate' => 'All permission template',
@@ -143,7 +143,7 @@ class PermissionsTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/discussions/1', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'replyTemplate' => 'No permission',
@@ -175,7 +175,7 @@ class PermissionsTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/discussions/3', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'replyTemplate' => 'Moderator template',
@@ -205,7 +205,7 @@ class PermissionsTest extends TestCase
         $response = $this->send(
             $this->request('PATCH', '/api/discussions/3', [
                 'authenticatedAs' => 2,
-                'json' => [
+                'json'            => [
                     'data' => [
                         'attributes' => [
                             'replyTemplate' => 'Both permissions',
