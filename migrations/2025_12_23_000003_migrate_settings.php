@@ -14,9 +14,8 @@ use Illuminate\Database\Schema\Builder;
 return [
     'up' => function (Builder $schema) {
         $db = $schema->getConnection();
-        $prefix = $db->getTablePrefix();
 
-        $db->table($prefix.'settings')
+        $db->table('settings')
             ->where('key', 'askvortsov-discussion-templates.no_tag_template')
             ->update(['key' => 'fof-discussion-templates.no_tag_template']);
     },
