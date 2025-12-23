@@ -1,4 +1,4 @@
-askvortsov-discussion-templates:
+fof-discussion-templates:
   admin:
     permissions:
       manage_own_discussion_reply_templates: Manage reply templates for their discussions
