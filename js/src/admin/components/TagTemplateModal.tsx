@@ -1,14 +1,23 @@
 import app from 'flarum/admin/app';
 import Button from 'flarum/common/components/Button';
-import Modal from 'flarum/common/components/Modal';
+import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import Stream from 'flarum/common/utils/Stream';
+import type Mithril from 'mithril';
+import Tag from 'flarum/tags/common/models/Tag';
 
-export default class TagTemplateModal extends Modal {
-  oninit(vnode) {
+export interface TagTemplateModalAttrs extends IInternalModalAttrs {
+  model: Tag;
+}
+
+export default class TagTemplateModal extends Modal<TagTemplateModalAttrs> {
+  template!: Stream<string>;
+
+  oninit(vnode: Mithril.Vnode<TagTemplateModalAttrs, this>) {
     super.oninit(vnode);
 
     this.template = Stream(this.attrs.model.template());
   }
+
   className() {
     return 'TagTemplateModal Modal--large';
   }
@@ -33,11 +42,11 @@ export default class TagTemplateModal extends Modal {
     ];
   }
 
-  changed() {
+  changed(): boolean {
     return this.template() !== this.attrs.model.template();
   }
 
-  onsubmit(e) {
+  onsubmit(e: SubmitEvent) {
     e.preventDefault();
 
     const tag = this.attrs.model;
@@ -51,8 +60,10 @@ export default class TagTemplateModal extends Modal {
         url: app.forum.attribute('apiUrl') + '/tags/' + tag.id() + '/template',
         body: { data: { template } },
       })
-      .then(function () {
-        tag.data.attributes.template = template;
+      .then(() => {
+        if (tag.data?.attributes) {
+          tag.data.attributes.template = template;
+        }
         app.modal.close();
       });
   }

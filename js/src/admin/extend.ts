@@ -1,7 +1,3 @@
-import Extend from 'flarum/common/extenders';
-import Tag from 'flarum/tags/common/models/Tag';
+import commonExtend from '../common/extend';
 
-export default [
-  new Extend.Model(Tag) //
-    .attribute<string>('template'),
-];
+export default [...commonExtend];

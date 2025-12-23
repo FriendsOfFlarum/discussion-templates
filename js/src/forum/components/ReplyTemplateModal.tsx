@@ -1,10 +1,19 @@
 import app from 'flarum/forum/app';
-import Modal from 'flarum/common/components/Modal';
+import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
 import Stream from 'flarum/common/utils/Stream';
+import type Mithril from 'mithril';
+import Discussion from 'flarum/common/models/Discussion';
 
-export default class ReplyTemplateModal extends Modal {
-  oninit(vnode) {
+export interface ReplyTemplateModalAttrs extends IInternalModalAttrs {
+  discussion: Discussion;
+}
+
+export default class ReplyTemplateModal extends Modal<ReplyTemplateModalAttrs> {
+  discussion!: Discussion;
+  replyTemplate!: Stream<string>;
+
+  oninit(vnode: Mithril.Vnode<ReplyTemplateModalAttrs, this>) {
     super.oninit(vnode);
 
     this.discussion = this.attrs.discussion;
@@ -41,7 +50,7 @@ export default class ReplyTemplateModal extends Modal {
     );
   }
 
-  onsubmit(e) {
+  onsubmit(e: SubmitEvent) {
     e.preventDefault();
 
     this.loading = true;
@@ -49,7 +58,7 @@ export default class ReplyTemplateModal extends Modal {
     const replyTemplate = this.replyTemplate();
 
     if (replyTemplate !== this.discussion.replyTemplate()) {
-      return this.discussion
+      this.discussion
         .save({ replyTemplate })
         .then(() => {
           m.redraw();

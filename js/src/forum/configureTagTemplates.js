@@ -3,8 +3,6 @@ import { extend, override } from 'flarum/common/extend';
 import IndexPage from 'flarum/forum/components/IndexPage';
 import DiscussionComposer from 'flarum/forum/components/DiscussionComposer';
 import ComposerState from 'flarum/forum/states/ComposerState';
-import Model from 'flarum/common/Model';
-import Tag from 'flarum/tags/models/Tag';
 import TagDiscussionModal from 'flarum/tags/components/TagDiscussionModal';
 
 function insertTemplate(contentOverwrite = false) {
@@ -54,8 +52,6 @@ function insertTemplate(contentOverwrite = false) {
 }
 
 export default function configureTagTemplates() {
-  Tag.prototype.template = Model.attribute('template');
-
   extend(IndexPage.prototype, 'newDiscussionAction', function (promise) {
     promise
       .then((composer) => {
