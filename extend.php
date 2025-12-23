@@ -30,7 +30,7 @@ return [
     new Extend\Locales(__DIR__.'/resources/locale'),
 
     (new Extend\Model(Discussion::class))
-        ->cast('replyTemplate', 'string'),
+        ->cast('reply_template', 'string'),
 
     (new Extend\Model(Tag::class))
         ->cast('template', 'string'),
