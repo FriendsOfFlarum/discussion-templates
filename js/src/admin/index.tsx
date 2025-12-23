@@ -1,4 +1,5 @@
 import app from 'flarum/admin/app';
+import ExtensionPage from 'flarum/admin/components/ExtensionPage';
 import extendEditTagModal from './extenders/extendEditTagModal';
 
 export { default as extend } from './extend';
@@ -12,7 +13,7 @@ app.initializers.add('fof-discussion-templates', () => {
       help: app.translator.trans('fof-discussion-templates.admin.settings.append_template_on_tag_change_help'),
       type: 'boolean',
     })
-    .registerSetting(function () {
+    .registerSetting(function (this: ExtensionPage) {
       return (
         <div className="Form-group">
           <label>{app.translator.trans('fof-discussion-templates.admin.settings.no_tag_template')}</label>
