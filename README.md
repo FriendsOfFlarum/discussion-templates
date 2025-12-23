@@ -4,6 +4,8 @@
 
 A [Flarum](http://flarum.org) extension that allows you to create customizable templates for new discussions. Templates can be assigned per tag or set as a default for discussions without tags. Additionally, discussion owners and moderators can set reply templates to guide responses.
 
+> **Note:** This extension is a direct replacement for the abandoned [`askvortsov/flarum-discussion-templates`](https://github.com/askvortsov1/flarum-discussion-templates). Upgrading from the old version is seamless - simply install this new version and your existing templates and settings will be automatically migrated!
+
 ## Features
 
 - **Tag-Based Templates**: Create specific templates for each tag to guide users on what information to include
