@@ -45,7 +45,7 @@ return [
 
     (new Extend\ApiSerializer(DiscussionSerializer::class))
         ->attribute('replyTemplate', function (DiscussionSerializer $serializer, Discussion $model) {
-            return $model->replyTemplate;
+            return $model->reply_template;
         })
         ->attribute('canManageReplyTemplates', function (DiscussionSerializer $serializer, Discussion $model) {
             return $serializer->getActor()->can('manageReplyTemplates', $model);

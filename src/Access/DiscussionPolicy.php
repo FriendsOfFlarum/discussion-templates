@@ -25,6 +25,14 @@ class DiscussionPolicy extends AbstractPolicy
      */
     public function manageReplyTemplates(User $actor, Discussion $discussion)
     {
-        return $actor->can('manageAllReplyTemplates', $discussion) || $actor->id === $discussion->user_id && $actor->can('manageOwnDiscussionReplyTemplates', $discussion);
+        if ($actor->hasPermission('discussion.manageAllReplyTemplates')) {
+            return true;
+        }
+
+        if ($actor->id === $discussion->user_id && $actor->hasPermission('discussion.manageOwnDiscussionReplyTemplates')) {
+            return true;
+        }
+
+        return false;
     }
 }

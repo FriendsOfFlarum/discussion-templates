@@ -27,7 +27,7 @@ class SaveReplyTemplateToDatabase
         if (isset($attributes['replyTemplate'])) {
             $actor->assertCan('manageReplyTemplates', $discussion);
 
-            $discussion->replyTemplate = $attributes['replyTemplate'];
+            $discussion->reply_template = $attributes['replyTemplate'];
         }
     }
 }

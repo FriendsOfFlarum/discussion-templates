@@ -22,7 +22,7 @@ return [
     },
     'down' => function (Builder $schema) {
         $schema->table('tags', function (Blueprint $table) {
-            $table->dropColumn('template');
+            $table->dropColumnIfExists('template');
         });
     },
 ];

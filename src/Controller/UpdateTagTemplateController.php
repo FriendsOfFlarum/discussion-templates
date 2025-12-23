@@ -45,7 +45,9 @@ class UpdateTagTemplateController extends AbstractShowController
      */
     public function data(ServerRequestInterface $request, Document $document)
     {
-        RequestUtil::getActor($request);
+        $actor = RequestUtil::getActor($request);
+        $actor->assertAdmin();
+
         $id = Arr::get($request->getQueryParams(), 'id');
         $data = Arr::get($request->getParsedBody(), 'data', []);
 
