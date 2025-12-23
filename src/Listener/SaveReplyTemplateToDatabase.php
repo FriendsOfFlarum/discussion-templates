@@ -9,7 +9,7 @@
  *  LICENSE file that was distributed with this source code.
  */
 
-namespace Askvortsov\FlarumDiscussionTemplates\Listener;
+namespace FoF\DiscussionTemplates\Listener;
 
 use Flarum\Discussion\Event\Saving;
 use Illuminate\Support\Arr;

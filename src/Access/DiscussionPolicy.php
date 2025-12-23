@@ -9,7 +9,7 @@
  *  LICENSE file that was distributed with this source code.
  */
 
-namespace Askvortsov\FlarumDiscussionTemplates\Access;
+namespace FoF\DiscussionTemplates\Access;
 
 use Flarum\Discussion\Discussion;
 use Flarum\User\Access\AbstractPolicy;
@@ -19,7 +19,6 @@ class DiscussionPolicy extends AbstractPolicy
 {
     /**
      * @param User       $actor
-     * @param string     $ability
      * @param Discussion $discussion
      *
      * @return bool

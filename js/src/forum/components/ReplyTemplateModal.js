@@ -1,6 +1,7 @@
-import Modal from "flarum/common/components/Modal";
-import Button from "flarum/common/components/Button";
-import Stream from "flarum/common/utils/Stream";
+import app from 'flarum/forum/app';
+import Modal from 'flarum/common/components/Modal';
+import Button from 'flarum/common/components/Button';
+import Stream from 'flarum/common/utils/Stream';
 
 export default class ReplyTemplateModal extends Modal {
   oninit(vnode) {
@@ -11,13 +12,11 @@ export default class ReplyTemplateModal extends Modal {
   }
 
   className() {
-    return "ReplyTemplateModal Modal";
+    return 'ReplyTemplateModal Modal';
   }
 
   title() {
-    return app.translator.trans(
-      "askvortsov-discussion-templates.forum.reply_template.title"
-    );
+    return app.translator.trans('fof-discussion-templates.forum.reply_template.title');
   }
 
   content() {
@@ -25,22 +24,16 @@ export default class ReplyTemplateModal extends Modal {
       <div className="Modal-body">
         <div className="Form Form--centered">
           <div className="Form-group">
-            <textarea
-              className="FormControl"
-              bidi={this.replyTemplate}
-              rows="6"
-            />
+            <textarea className="FormControl" bidi={this.replyTemplate} rows="6" />
           </div>
           <div className="Form-group">
             {Button.component(
               {
-                className: "Button Button--primary Button--block",
-                type: "submit",
+                className: 'Button Button--primary Button--block',
+                type: 'submit',
                 loading: this.loading,
               },
-              app.translator.trans(
-                "askvortsov-discussion-templates.forum.reply_template.submit_button"
-              )
+              app.translator.trans('fof-discussion-templates.forum.reply_template.submit_button')
             )}
           </div>
         </div>
