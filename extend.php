@@ -19,6 +19,10 @@ use Flarum\Tags\Api\Serializer\TagSerializer;
 use Flarum\Tags\Tag;
 use FoF\DiscussionTemplates\Access\DiscussionPolicy;
 use FoF\DiscussionTemplates\Listener\SaveReplyTemplateToDatabase;
+use Flarum\Api\Context;
+use Flarum\Api\Endpoint;
+use Flarum\Api\Resource;
+use Flarum\Api\Schema;
 
 return [
     (new Extend\Frontend('forum'))
@@ -38,11 +42,13 @@ return [
     (new Extend\Routes('api'))
         ->patch('/tags/{id}/template', 'tags.updateTemplate', Controller\UpdateTagTemplateController::class),
 
+    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
     (new Extend\ApiSerializer(TagSerializer::class))
         ->attribute('template', function (TagSerializer $serializer, Tag $model) {
             return $model->template;
         }),
 
+    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
     (new Extend\ApiSerializer(DiscussionSerializer::class))
         ->attribute('replyTemplate', function (DiscussionSerializer $serializer, Discussion $model) {
             return $model->reply_template;
