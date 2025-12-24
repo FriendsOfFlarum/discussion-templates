@@ -3,7 +3,7 @@ import { extend, override } from 'flarum/common/extend';
 import IndexPage from 'flarum/forum/components/IndexPage';
 import DiscussionComposer from 'flarum/forum/components/DiscussionComposer';
 import ComposerState from 'flarum/forum/states/ComposerState';
-import TagDiscussionModal from 'flarum/tags/forum/components/TagDiscussionModal';
+import TagDiscussionModal from 'ext:flarum/tags/forum/components/TagDiscussionModal';
 import type Tag from 'flarum/tags/common/models/Tag';
 
 function insertTemplate(contentOverwrite = false) {

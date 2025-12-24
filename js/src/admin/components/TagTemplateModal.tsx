@@ -3,7 +3,7 @@ import Button from 'flarum/common/components/Button';
 import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
 import Stream from 'flarum/common/utils/Stream';
 import type Mithril from 'mithril';
-import Tag from 'flarum/tags/common/models/Tag';
+import Tag from 'ext:flarum/tags/common/models/Tag';
 
 export interface TagTemplateModalAttrs extends IInternalModalAttrs {
   model: Tag;
