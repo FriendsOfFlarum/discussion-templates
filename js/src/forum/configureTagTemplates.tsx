@@ -1,10 +1,8 @@
 import app from 'flarum/forum/app';
 import { extend, override } from 'flarum/common/extend';
-import IndexPage from 'flarum/forum/components/IndexPage';
-import DiscussionComposer from 'flarum/forum/components/DiscussionComposer';
+import IndexSidebar from 'flarum/forum/components/IndexSidebar';
 import ComposerState from 'flarum/forum/states/ComposerState';
-import TagDiscussionModal from 'flarum/tags/forum/components/TagDiscussionModal';
-import type Tag from 'flarum/tags/common/models/Tag';
+import type Tag from 'ext:flarum/tags/common/models/Tag';
 
 function insertTemplate(contentOverwrite = false) {
   if (!app.composer.fields) return;
@@ -60,7 +58,7 @@ function insertTemplate(contentOverwrite = false) {
 }
 
 export default function configureTagTemplates() {
-  extend(IndexPage.prototype, 'newDiscussionAction', function (promise: Promise<unknown>) {
+  extend(IndexSidebar.prototype, 'newDiscussionAction', function (promise: Promise<unknown>) {
     promise
       .then((composer: any) => {
         if (composer.fields?.tags?.length > 0) {
@@ -75,15 +73,15 @@ export default function configureTagTemplates() {
       .catch(() => {});
   });
 
-  extend(TagDiscussionModal.prototype, 'onremove', function () {
+  extend('ext:flarum/tags/forum/components/TagDiscussionModal', 'onremove', function () {
     if (app.composer.fields && (app.composer.fields as any).tags?.length > 0) {
       insertTemplate();
     }
   });
 
   override(ComposerState.prototype, 'show', function (this: ComposerState, originalFunction: () => void) {
-    const body = this.body as any;
-    if (body.componentClass === DiscussionComposer && this.fields?.content().trim() === '') {
+    // Check if composing a new discussion using bodyMatches with string path
+    if (this.bodyMatches('flarum/forum/components/DiscussionComposer') && this.fields?.content().trim() === '') {
       // Only insert template if the composer is empty
 
       if ((this.fields as any).tags) {

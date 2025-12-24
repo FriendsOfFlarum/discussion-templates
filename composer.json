@@ -15,7 +15,7 @@
         "askvortsov/flarum-discussion-templates": "*"
     },
     "require": {
-        "flarum/core": "^1.8.0",
+        "flarum/core": "^2.0.0",
         "flarum/tags": "*"
     },
     "authors": [
@@ -76,8 +76,8 @@
         "test:setup": "Sets up a database for use with integration tests. Execute this only once."
     },
     "require-dev": {
-        "flarum/testing": "*",
-        "flarum/phpstan": "*"
+        "flarum/testing": "^2.0.0",
+        "flarum/phpstan": "^2.0.0"
     },
     "minimum-stability": "beta",
     "prefer-stable": true

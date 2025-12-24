@@ -12,8 +12,11 @@
 namespace FoF\DiscussionTemplates\Tests\integration\api;
 
 use Flarum\Extend;
+use Flarum\Tags\Tag;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use Flarum\User\User;
+use PHPUnit\Framework\Attributes\Test;
 
 class TagTemplateTest extends TestCase
 {
@@ -26,29 +29,31 @@ class TagTemplateTest extends TestCase
         $this->extension('flarum-tags', 'fof-discussion-templates');
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
             ],
-            'tags' => [
+            Tag::class => [
                 ['id' => 1, 'name' => 'General', 'slug' => 'general', 'position' => 0, 'parent_id' => null],
                 ['id' => 2, 'name' => 'Support', 'slug' => 'support', 'position' => 1, 'parent_id' => null],
             ],
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function admin_can_set_tag_template()
     {
         $template = "# Bug Report Template\n\n## Expected Behavior\n\n## Actual Behavior";
 
         $response = $this->send(
-            $this->request('PATCH', '/api/tags/1/template', [
+            $this->request('PATCH', '/api/tags/1', [
                 'authenticatedAs' => 1,
                 'json'            => [
                     'data' => [
-                        'template' => $template,
+                        'type'       => 'tags',
+                        'id'         => '1',
+                        'attributes' => [
+                            'template' => $template,
+                        ],
                     ],
                 ],
             ])
@@ -65,17 +70,19 @@ class TagTemplateTest extends TestCase
         $this->assertEquals($template, $tag->template);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function non_admin_cannot_set_tag_template()
     {
         $response = $this->send(
-            $this->request('PATCH', '/api/tags/1/template', [
+            $this->request('PATCH', '/api/tags/1', [
                 'authenticatedAs' => 2,
                 'json'            => [
                     'data' => [
-                        'template' => 'Test template',
+                        'type'       => 'tags',
+                        'id'         => '1',
+                        'attributes' => [
+                            'template' => 'Test template',
+                        ],
                     ],
                 ],
             ])
@@ -84,34 +91,34 @@ class TagTemplateTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_set_tag_template()
     {
-        $this->extend((new Extend\Csrf())->exemptRoute('tags.updateTemplate'));
+        $this->extend((new Extend\Csrf())->exemptRoute('tags.update'));
 
         $response = $this->send(
-            $this->request('PATCH', '/api/tags/1/template', [
+            $this->request('PATCH', '/api/tags/1', [
                 'json' => [
                     'data' => [
-                        'template' => 'Test template',
+                        'type'       => 'tags',
+                        'id'         => '1',
+                        'attributes' => [
+                            'template' => 'Test template',
+                        ],
                     ],
                 ],
             ])
         );
 
-        $this->assertContains($response->getStatusCode(), [403]);
+        $this->assertContains($response->getStatusCode(), [403, 401]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tag_template_is_included_in_tag_list()
     {
         $template = 'Test template for general';
         $this->prepareDatabase([
-            'tags' => [
+            Tag::class => [
                 ['id' => 1, 'template' => $template],
             ],
         ]);
@@ -131,25 +138,27 @@ class TagTemplateTest extends TestCase
         $this->assertEquals($template, $generalTag['attributes']['template']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_clear_tag_template()
     {
         // First set a template
         $this->prepareDatabase([
-            'tags' => [
+            Tag::class => [
                 ['id' => 1, 'template' => 'Old template'],
             ],
         ]);
 
         // Now clear it
         $response = $this->send(
-            $this->request('PATCH', '/api/tags/1/template', [
+            $this->request('PATCH', '/api/tags/1', [
                 'authenticatedAs' => 1,
                 'json'            => [
                     'data' => [
-                        'template' => '',
+                        'type'       => 'tags',
+                        'id'         => '1',
+                        'attributes' => [
+                            'template' => '',
+                        ],
                     ],
                 ],
             ])
@@ -161,17 +170,19 @@ class TagTemplateTest extends TestCase
         $this->assertEquals('', $json['data']['attributes']['template']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tag_template_returns_404_for_nonexistent_tag()
     {
         $response = $this->send(
-            $this->request('PATCH', '/api/tags/999/template', [
+            $this->request('PATCH', '/api/tags/999', [
                 'authenticatedAs' => 1,
                 'json'            => [
                     'data' => [
-                        'template' => 'Test',
+                        'type'       => 'tags',
+                        'id'         => '999',
+                        'attributes' => [
+                            'template' => 'Test',
+                        ],
                     ],
                 ],
             ])

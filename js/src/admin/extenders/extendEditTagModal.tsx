@@ -1,7 +1,7 @@
 import app from 'flarum/admin/app';
 import { extend } from 'flarum/common/extend';
 import Button from 'flarum/common/components/Button';
-import EditTagModal from 'flarum/tags/admin/components/EditTagModal';
+import EditTagModal from 'ext:flarum/tags/admin/components/EditTagModal';
 import TagTemplateModal from '../components/TagTemplateModal';
 
 export default function extendEditTagModal() {

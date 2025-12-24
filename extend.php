@@ -11,14 +11,14 @@
 
 namespace FoF\DiscussionTemplates;
 
-use Flarum\Api\Serializer\DiscussionSerializer;
+use Flarum\Api\Context;
+use Flarum\Api\Resource;
+use Flarum\Api\Schema;
 use Flarum\Discussion\Discussion;
-use Flarum\Discussion\Event\Saving;
 use Flarum\Extend;
-use Flarum\Tags\Api\Serializer\TagSerializer;
+use Flarum\Tags\Api\Resource\TagResource;
 use Flarum\Tags\Tag;
 use FoF\DiscussionTemplates\Access\DiscussionPolicy;
-use FoF\DiscussionTemplates\Listener\SaveReplyTemplateToDatabase;
 
 return [
     (new Extend\Frontend('forum'))
@@ -35,27 +35,35 @@ return [
     (new Extend\Model(Tag::class))
         ->cast('template', 'string'),
 
-    (new Extend\Routes('api'))
-        ->patch('/tags/{id}/template', 'tags.updateTemplate', Controller\UpdateTagTemplateController::class),
+    // Add template field to TagResource
+    (new Extend\ApiResource(TagResource::class))
+        ->fields(fn () => [
+            Schema\Str::make('template')
+                ->writable(fn (Tag $_tag, Context $context) => $context->getActor()->isAdmin())
+                ->nullable()
+                ->get(fn (Tag $tag) => $tag->template),
+        ]),
 
-    (new Extend\ApiSerializer(TagSerializer::class))
-        ->attribute('template', function (TagSerializer $serializer, Tag $model) {
-            return $model->template;
-        }),
-
-    (new Extend\ApiSerializer(DiscussionSerializer::class))
-        ->attribute('replyTemplate', function (DiscussionSerializer $serializer, Discussion $model) {
-            return $model->reply_template;
-        })
-        ->attribute('canManageReplyTemplates', function (DiscussionSerializer $serializer, Discussion $model) {
-            return $serializer->getActor()->can('manageReplyTemplates', $model);
-        }),
+    // Add reply template fields to DiscussionResource
+    (new Extend\ApiResource(Resource\DiscussionResource::class))
+        ->fields(fn () => [
+            Schema\Str::make('replyTemplate')
+                ->writable(
+                    fn (Discussion $discussion, Context $context) => $context->getActor()->can('manageReplyTemplates', $discussion)
+                )
+                ->nullable()
+                ->get(fn (Discussion $discussion) => $discussion->reply_template)
+                ->set(function (Discussion $discussion, ?string $value) {
+                    $discussion->reply_template = $value;
+                }),
+            Schema\Boolean::make('canManageReplyTemplates')
+                ->get(
+                    fn (Discussion $discussion, Context $context) => $context->getActor()->can('manageReplyTemplates', $discussion)
+                ),
+        ]),
 
     (new Extend\Policy())
         ->modelPolicy(Discussion::class, DiscussionPolicy::class),
-
-    (new Extend\Event())
-        ->listen(Saving::class, SaveReplyTemplateToDatabase::class),
 
     (new Extend\Settings())
         ->serializeToForum('fof-discussion-templates.no_tag_template', 'fof-discussion-templates.no_tag_template')

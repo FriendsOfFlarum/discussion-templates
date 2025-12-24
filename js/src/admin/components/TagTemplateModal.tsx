@@ -1,15 +1,17 @@
+import Form from 'flarum/common/components/Form';
 import app from 'flarum/admin/app';
 import Button from 'flarum/common/components/Button';
-import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
+import { IFormModalAttrs } from 'flarum/common/components/FormModal';
+import FormModal from 'flarum/common/components/FormModal';
 import Stream from 'flarum/common/utils/Stream';
 import type Mithril from 'mithril';
-import Tag from 'flarum/tags/common/models/Tag';
+import Tag from 'ext:flarum/tags/common/models/Tag';
 
-export interface TagTemplateModalAttrs extends IInternalModalAttrs {
+export interface TagTemplateModalAttrs extends IFormModalAttrs {
   model: Tag;
 }
 
-export default class TagTemplateModal extends Modal<TagTemplateModalAttrs> {
+export default class TagTemplateModal extends FormModal<TagTemplateModalAttrs> {
   template!: Stream<string>;
 
   oninit(vnode: Mithril.Vnode<TagTemplateModalAttrs, this>) {
@@ -29,7 +31,7 @@ export default class TagTemplateModal extends Modal<TagTemplateModalAttrs> {
   content() {
     return [
       <div className="Modal-body">
-        <div className="Form">
+        <Form>
           <p>{app.translator.trans('fof-discussion-templates.admin.tag_template_modal.customize_text')}</p>
           <div className="Form-group">
             <textarea className="FormControl" rows="30" bidi={this.template} />
@@ -37,7 +39,7 @@ export default class TagTemplateModal extends Modal<TagTemplateModalAttrs> {
           <Button type="submit" className="Button Button--primary" loading={this.loading} disabled={!this.changed()}>
             {app.translator.trans('fof-discussion-templates.admin.tag_template_modal.submit_button')}
           </Button>
-        </div>
+        </Form>
       </div>,
     ];
   }
@@ -54,17 +56,13 @@ export default class TagTemplateModal extends Modal<TagTemplateModalAttrs> {
 
     this.loading = true;
 
-    app
-      .request({
-        method: 'PATCH',
-        url: app.forum.attribute('apiUrl') + '/tags/' + tag.id() + '/template',
-        body: { data: { template } },
-      })
+    tag
+      .save({ template })
       .then(() => {
-        if (tag.data?.attributes) {
-          tag.data.attributes.template = template;
-        }
         app.modal.close();
+      })
+      .catch(() => {
+        this.loading = false;
       });
   }
 }
