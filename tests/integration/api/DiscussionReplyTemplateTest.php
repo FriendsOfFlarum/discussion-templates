@@ -202,15 +202,17 @@ class DiscussionReplyTemplateTest extends TestCase
     #[Test]
     public function can_clear_reply_template()
     {
-        // Grant permission and set initial template
+        // Grant permission
         $this->prepareDatabase([
             'group_permission' => [
                 ['group_id' => 4, 'permission' => 'discussion.manageOwnDiscussionReplyTemplates'],
             ],
-            Discussion::class => [
-                ['id' => 1, 'reply_template' => 'Old template'],
-            ],
         ]);
+
+        // Set initial template directly via database
+        $this->database()->table('discussions')
+            ->where('id', 1)
+            ->update(['reply_template' => 'Old template']);
 
         // Now clear it
         $response = $this->send(
