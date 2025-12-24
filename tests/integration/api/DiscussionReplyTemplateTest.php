@@ -15,6 +15,10 @@ use Carbon\Carbon;
 use Flarum\Extend;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use Flarum\User\User;
+use Flarum\Discussion\Discussion;
+use Flarum\Post\Post;
 
 class DiscussionReplyTemplateTest extends TestCase
 {
@@ -27,15 +31,15 @@ class DiscussionReplyTemplateTest extends TestCase
         $this->extension('flarum-tags', 'fof-discussion-templates');
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'moderator', 'email' => 'mod@machine.local', 'is_email_confirmed' => true],
             ],
-            'discussions' => [
+            Discussion::class => [
                 ['id' => 1, 'title' => 'Test Discussion', 'user_id' => 2, 'created_at' => Carbon::now(), 'comment_count' => 1],
                 ['id' => 2, 'title' => 'Another Discussion', 'user_id' => 3, 'created_at' => Carbon::now(), 'comment_count' => 1],
             ],
-            'posts' => [
+            Post::class => [
                 ['id' => 1, 'discussion_id' => 1, 'user_id' => 2, 'type' => 'comment', 'content' => '<t><p>First post</p></t>', 'created_at' => Carbon::now(), 'number' => 1],
                 ['id' => 2, 'discussion_id' => 2, 'user_id' => 3, 'type' => 'comment', 'content' => '<t><p>First post</p></t>', 'created_at' => Carbon::now(), 'number' => 1],
             ],
@@ -46,9 +50,7 @@ class DiscussionReplyTemplateTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function discussion_owner_can_set_reply_template()
     {
         // Grant permission to manage own discussion reply templates
@@ -79,9 +81,7 @@ class DiscussionReplyTemplateTest extends TestCase
         $this->assertEquals($template, $json['data']['attributes']['replyTemplate']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function discussion_owner_cannot_set_reply_template_without_permission()
     {
         // Remove the permission
@@ -105,9 +105,7 @@ class DiscussionReplyTemplateTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function moderator_can_set_any_discussion_reply_template()
     {
         // Grant permission to moderators (group 3)
@@ -138,9 +136,7 @@ class DiscussionReplyTemplateTest extends TestCase
         $this->assertEquals($template, $json['data']['attributes']['replyTemplate']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function non_owner_non_moderator_cannot_set_reply_template()
     {
         $response = $this->send(
@@ -159,9 +155,7 @@ class DiscussionReplyTemplateTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_set_reply_template()
     {
         $this->extend((new Extend\Csrf())->exemptRoute('discussions.update'));
@@ -181,14 +175,12 @@ class DiscussionReplyTemplateTest extends TestCase
         $this->assertContains($response->getStatusCode(), [403]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function reply_template_is_included_in_discussion_response()
     {
         $template = 'Test reply template';
         $this->prepareDatabase([
-            'discussions' => [
+            Discussion::class => [
                 ['id' => 1, 'reply_template' => $template],
             ],
         ]);
@@ -205,9 +197,7 @@ class DiscussionReplyTemplateTest extends TestCase
         $this->assertEquals($template, $json['data']['attributes']['replyTemplate']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_clear_reply_template()
     {
         // Grant permission and set initial template
@@ -215,7 +205,7 @@ class DiscussionReplyTemplateTest extends TestCase
             'group_permission' => [
                 ['group_id' => 4, 'permission' => 'discussion.manageOwnDiscussionReplyTemplates'],
             ],
-            'discussions' => [
+            Discussion::class => [
                 ['id' => 1, 'reply_template' => 'Old template'],
             ],
         ]);
@@ -240,9 +230,7 @@ class DiscussionReplyTemplateTest extends TestCase
         $this->assertEquals('', $json['data']['attributes']['replyTemplate']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_manage_reply_templates_attribute_is_included()
     {
         // Grant permission to manage own discussion reply templates
@@ -265,9 +253,7 @@ class DiscussionReplyTemplateTest extends TestCase
         $this->assertTrue($json['data']['attributes']['canManageReplyTemplates']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_manage_reply_templates_is_false_for_unauthorized_user()
     {
         $response = $this->send(

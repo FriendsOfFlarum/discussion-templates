@@ -14,6 +14,9 @@ namespace FoF\DiscussionTemplates\Tests\integration\api;
 use Flarum\Extend;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use Flarum\User\User;
+use Flarum\Tags\Tag;
 
 class TagTemplateTest extends TestCase
 {
@@ -26,19 +29,17 @@ class TagTemplateTest extends TestCase
         $this->extension('flarum-tags', 'fof-discussion-templates');
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
             ],
-            'tags' => [
+            Tag::class => [
                 ['id' => 1, 'name' => 'General', 'slug' => 'general', 'position' => 0, 'parent_id' => null],
                 ['id' => 2, 'name' => 'Support', 'slug' => 'support', 'position' => 1, 'parent_id' => null],
             ],
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function admin_can_set_tag_template()
     {
         $template = "# Bug Report Template\n\n## Expected Behavior\n\n## Actual Behavior";
@@ -65,9 +66,7 @@ class TagTemplateTest extends TestCase
         $this->assertEquals($template, $tag->template);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function non_admin_cannot_set_tag_template()
     {
         $response = $this->send(
@@ -84,9 +83,7 @@ class TagTemplateTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_cannot_set_tag_template()
     {
         $this->extend((new Extend\Csrf())->exemptRoute('tags.updateTemplate'));
@@ -104,14 +101,12 @@ class TagTemplateTest extends TestCase
         $this->assertContains($response->getStatusCode(), [403]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tag_template_is_included_in_tag_list()
     {
         $template = 'Test template for general';
         $this->prepareDatabase([
-            'tags' => [
+            Tag::class => [
                 ['id' => 1, 'template' => $template],
             ],
         ]);
@@ -131,14 +126,12 @@ class TagTemplateTest extends TestCase
         $this->assertEquals($template, $generalTag['attributes']['template']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_clear_tag_template()
     {
         // First set a template
         $this->prepareDatabase([
-            'tags' => [
+            Tag::class => [
                 ['id' => 1, 'template' => 'Old template'],
             ],
         ]);
@@ -161,9 +154,7 @@ class TagTemplateTest extends TestCase
         $this->assertEquals('', $json['data']['attributes']['template']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function tag_template_returns_404_for_nonexistent_tag()
     {
         $response = $this->send(

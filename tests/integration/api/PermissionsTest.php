@@ -14,6 +14,10 @@ namespace FoF\DiscussionTemplates\Tests\integration\api;
 use Carbon\Carbon;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use Flarum\User\User;
+use Flarum\Discussion\Discussion;
+use Flarum\Post\Post;
 
 class PermissionsTest extends TestCase
 {
@@ -26,17 +30,17 @@ class PermissionsTest extends TestCase
         $this->extension('flarum-tags', 'fof-discussion-templates');
 
         $this->prepareDatabase([
-            'users' => [
+            User::class => [
                 $this->normalUser(),
                 ['id' => 3, 'username' => 'moderator', 'email' => 'mod@machine.local', 'is_email_confirmed' => true],
                 ['id' => 4, 'username' => 'user3', 'email' => 'user3@machine.local', 'is_email_confirmed' => true],
             ],
-            'discussions' => [
+            Discussion::class => [
                 ['id' => 1, 'title' => 'User 2 Discussion', 'user_id' => 2, 'created_at' => Carbon::now(), 'comment_count' => 1],
                 ['id' => 2, 'title' => 'User 3 Discussion', 'user_id' => 3, 'created_at' => Carbon::now(), 'comment_count' => 1],
                 ['id' => 3, 'title' => 'User 4 Discussion', 'user_id' => 4, 'created_at' => Carbon::now(), 'comment_count' => 1],
             ],
-            'posts' => [
+            Post::class => [
                 ['id' => 1, 'discussion_id' => 1, 'user_id' => 2, 'type' => 'comment', 'content' => '<t><p>Post 1</p></t>', 'created_at' => Carbon::now(), 'number' => 1],
                 ['id' => 2, 'discussion_id' => 2, 'user_id' => 3, 'type' => 'comment', 'content' => '<t><p>Post 2</p></t>', 'created_at' => Carbon::now(), 'number' => 1],
                 ['id' => 3, 'discussion_id' => 3, 'user_id' => 4, 'type' => 'comment', 'content' => '<t><p>Post 3</p></t>', 'created_at' => Carbon::now(), 'number' => 1],
@@ -49,9 +53,7 @@ class PermissionsTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_own_permission_can_manage_own_discussion()
     {
         // Grant permission to members to manage their own discussions
@@ -77,9 +79,7 @@ class PermissionsTest extends TestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_own_permission_cannot_manage_others_discussion()
     {
         $this->prepareDatabase([
@@ -104,9 +104,7 @@ class PermissionsTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_all_permission_can_manage_any_discussion()
     {
         // Grant "all" permission to members group
@@ -133,9 +131,7 @@ class PermissionsTest extends TestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_without_permission_cannot_manage_any_discussion()
     {
         // No permissions granted - test will use empty permission set
@@ -156,9 +152,7 @@ class PermissionsTest extends TestCase
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function moderator_group_has_all_permission_by_default()
     {
         // Make user 2 a moderator and grant moderator permission
@@ -188,9 +182,7 @@ class PermissionsTest extends TestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function all_permission_takes_precedence_over_own_permission()
     {
         // Grant both permissions to members group
@@ -218,9 +210,7 @@ class PermissionsTest extends TestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function can_manage_reply_templates_reflects_permission_state()
     {
         $this->prepareDatabase([
