@@ -12,11 +12,11 @@
 namespace FoF\DiscussionTemplates\Tests\integration\api;
 
 use Flarum\Extend;
+use Flarum\Tags\Tag;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 use Flarum\User\User;
-use Flarum\Tags\Tag;
+use PHPUnit\Framework\Attributes\Test;
 
 class TagTemplateTest extends TestCase
 {
@@ -49,8 +49,8 @@ class TagTemplateTest extends TestCase
                 'authenticatedAs' => 1,
                 'json'            => [
                     'data' => [
-                        'type' => 'tags',
-                        'id' => '1',
+                        'type'       => 'tags',
+                        'id'         => '1',
                         'attributes' => [
                             'template' => $template,
                         ],
@@ -78,8 +78,8 @@ class TagTemplateTest extends TestCase
                 'authenticatedAs' => 2,
                 'json'            => [
                     'data' => [
-                        'type' => 'tags',
-                        'id' => '1',
+                        'type'       => 'tags',
+                        'id'         => '1',
                         'attributes' => [
                             'template' => 'Test template',
                         ],
@@ -100,8 +100,8 @@ class TagTemplateTest extends TestCase
             $this->request('PATCH', '/api/tags/1', [
                 'json' => [
                     'data' => [
-                        'type' => 'tags',
-                        'id' => '1',
+                        'type'       => 'tags',
+                        'id'         => '1',
                         'attributes' => [
                             'template' => 'Test template',
                         ],
@@ -154,8 +154,8 @@ class TagTemplateTest extends TestCase
                 'authenticatedAs' => 1,
                 'json'            => [
                     'data' => [
-                        'type' => 'tags',
-                        'id' => '1',
+                        'type'       => 'tags',
+                        'id'         => '1',
                         'attributes' => [
                             'template' => '',
                         ],
@@ -178,8 +178,8 @@ class TagTemplateTest extends TestCase
                 'authenticatedAs' => 1,
                 'json'            => [
                     'data' => [
-                        'type' => 'tags',
-                        'id' => '999',
+                        'type'       => 'tags',
+                        'id'         => '999',
                         'attributes' => [
                             'template' => 'Test',
                         ],

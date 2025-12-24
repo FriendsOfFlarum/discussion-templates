@@ -12,13 +12,13 @@
 namespace FoF\DiscussionTemplates\Tests\integration\api;
 
 use Carbon\Carbon;
+use Flarum\Discussion\Discussion;
 use Flarum\Extend;
+use Flarum\Post\Post;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 use Flarum\User\User;
-use Flarum\Discussion\Discussion;
-use Flarum\Post\Post;
+use PHPUnit\Framework\Attributes\Test;
 
 class DiscussionReplyTemplateTest extends TestCase
 {
@@ -164,8 +164,8 @@ class DiscussionReplyTemplateTest extends TestCase
             $this->request('PATCH', '/api/discussions/1', [
                 'json' => [
                     'data' => [
-                        'type' => 'discussions',
-                        'id' => '1',
+                        'type'       => 'discussions',
+                        'id'         => '1',
                         'attributes' => [
                             'replyTemplate' => 'Guest template',
                         ],

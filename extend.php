@@ -12,7 +12,6 @@
 namespace FoF\DiscussionTemplates;
 
 use Flarum\Api\Context;
-use Flarum\Api\Endpoint;
 use Flarum\Api\Resource;
 use Flarum\Api\Schema;
 use Flarum\Discussion\Discussion;
@@ -49,8 +48,8 @@ return [
     (new Extend\ApiResource(Resource\DiscussionResource::class))
         ->fields(fn () => [
             Schema\Str::make('replyTemplate')
-                ->writable(fn (Discussion $discussion, Context $context) =>
-                    $context->getActor()->can('manageReplyTemplates', $discussion)
+                ->writable(
+                    fn (Discussion $discussion, Context $context) => $context->getActor()->can('manageReplyTemplates', $discussion)
                 )
                 ->nullable()
                 ->get(fn (Discussion $discussion) => $discussion->reply_template)
@@ -58,8 +57,8 @@ return [
                     $discussion->reply_template = $value;
                 }),
             Schema\Boolean::make('canManageReplyTemplates')
-                ->get(fn (Discussion $discussion, Context $context) =>
-                    $context->getActor()->can('manageReplyTemplates', $discussion)
+                ->get(
+                    fn (Discussion $discussion, Context $context) => $context->getActor()->can('manageReplyTemplates', $discussion)
                 ),
         ]),
 
