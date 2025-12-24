@@ -5,7 +5,7 @@ import extendEditTagModal from './extenders/extendEditTagModal';
 export { default as extend } from './extend';
 
 app.initializers.add('fof-discussion-templates', () => {
-  app.extensionData
+  app.registry
     .for('fof-discussion-templates')
     .registerSetting({
       setting: 'appendTemplateOnTagChange',

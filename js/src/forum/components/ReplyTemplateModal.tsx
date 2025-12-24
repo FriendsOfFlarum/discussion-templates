@@ -1,15 +1,17 @@
+import Form from 'flarum/common/components/Form';
 import app from 'flarum/forum/app';
-import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
+import { IFormModalAttrs } from 'flarum/common/components/FormModal';
+import FormModal from 'flarum/common/components/FormModal';
 import Button from 'flarum/common/components/Button';
 import Stream from 'flarum/common/utils/Stream';
 import type Mithril from 'mithril';
 import Discussion from 'flarum/common/models/Discussion';
 
-export interface ReplyTemplateModalAttrs extends IInternalModalAttrs {
+export interface ReplyTemplateModalAttrs extends IFormModalAttrs {
   discussion: Discussion;
 }
 
-export default class ReplyTemplateModal extends Modal<ReplyTemplateModalAttrs> {
+export default class ReplyTemplateModal extends FormModal<ReplyTemplateModalAttrs> {
   discussion!: Discussion;
   replyTemplate!: Stream<string>;
 
@@ -31,7 +33,7 @@ export default class ReplyTemplateModal extends Modal<ReplyTemplateModalAttrs> {
   content() {
     return (
       <div className="Modal-body">
-        <div className="Form Form--centered">
+        <Form className="Form--centered">
           <div className="Form-group">
             <textarea className="FormControl" bidi={this.replyTemplate} rows="6" />
           </div>
@@ -45,7 +47,7 @@ export default class ReplyTemplateModal extends Modal<ReplyTemplateModalAttrs> {
               app.translator.trans('fof-discussion-templates.forum.reply_template.submit_button')
             )}
           </div>
-        </div>
+        </Form>
       </div>
     );
   }
