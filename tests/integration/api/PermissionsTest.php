@@ -68,8 +68,8 @@ class PermissionsTest extends TestCase
                 'authenticatedAs' => 2,
                 'json'            => [
                     'data' => [
-                        'type' => 'discussions',
-                        'id' => '1',
+                        'type'       => 'discussions',
+                        'id'         => '1',
                         'attributes' => [
                             'replyTemplate' => 'Own template',
                         ],
@@ -95,8 +95,8 @@ class PermissionsTest extends TestCase
                 'authenticatedAs' => 2,
                 'json'            => [
                     'data' => [
-                        'type' => 'discussions',
-                        'id' => '2',
+                        'type'       => 'discussions',
+                        'id'         => '2',
                         'attributes' => [
                             'replyTemplate' => 'Unauthorized',
                         ],
@@ -124,8 +124,8 @@ class PermissionsTest extends TestCase
                 'authenticatedAs' => 2,
                 'json'            => [
                     'data' => [
-                        'type' => 'discussions',
-                        'id' => '2',
+                        'type'       => 'discussions',
+                        'id'         => '2',
                         'attributes' => [
                             'replyTemplate' => 'All permission template',
                         ],
@@ -147,8 +147,8 @@ class PermissionsTest extends TestCase
                 'authenticatedAs' => 2,
                 'json'            => [
                     'data' => [
-                        'type' => 'discussions',
-                        'id' => '1',
+                        'type'       => 'discussions',
+                        'id'         => '1',
                         'attributes' => [
                             'replyTemplate' => 'No permission',
                         ],
@@ -179,8 +179,8 @@ class PermissionsTest extends TestCase
                 'authenticatedAs' => 2,
                 'json'            => [
                     'data' => [
-                        'type' => 'discussions',
-                        'id' => '3',
+                        'type'       => 'discussions',
+                        'id'         => '3',
                         'attributes' => [
                             'replyTemplate' => 'Moderator template',
                         ],
@@ -209,8 +209,8 @@ class PermissionsTest extends TestCase
                 'authenticatedAs' => 2,
                 'json'            => [
                     'data' => [
-                        'type' => 'discussions',
-                        'id' => '3',
+                        'type'       => 'discussions',
+                        'id'         => '3',
                         'attributes' => [
                             'replyTemplate' => 'Both permissions',
                         ],

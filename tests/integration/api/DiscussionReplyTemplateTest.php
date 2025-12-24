@@ -218,8 +218,8 @@ class DiscussionReplyTemplateTest extends TestCase
                 'authenticatedAs' => 2,
                 'json'            => [
                     'data' => [
-                        'type' => 'discussions',
-                        'id' => '1',
+                        'type'       => 'discussions',
+                        'id'         => '1',
                         'attributes' => [
                             'replyTemplate' => '',
                         ],
