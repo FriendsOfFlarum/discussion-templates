@@ -1,7 +1,6 @@
 import app from 'flarum/forum/app';
 import { extend } from 'flarum/common/extend';
 import Button from 'flarum/common/components/Button';
-import ReplyComposer from 'flarum/forum/components/ReplyComposer';
 import DiscussionControls from 'flarum/forum/utils/DiscussionControls';
 
 import ReplyTemplateModal from './components/ReplyTemplateModal';
