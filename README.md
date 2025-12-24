@@ -1,6 +1,6 @@
 # FoF Discussion Templates
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/FriendsOfFlarum/discussion-templates.svg)](https://packagist.org/packages/FriendsOfFlarum/discussion-templates)
+![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/fof/discussion-templates.svg)](https://packagist.org/packages/fof/discussion-templates)
 
 A [Flarum](http://flarum.org) extension that allows you to create customizable templates for new discussions. Templates can be assigned per tag or set as a default for discussions without tags. Additionally, discussion owners and moderators can set reply templates to guide responses.
 
@@ -90,6 +90,6 @@ php flarum cache:clear
 
 ## Links
 
-- [Packagist](https://packagist.org/packages/FriendsOfFlarum/discussion-templates)
+- [Packagist](https://packagist.org/packages/fof/discussion-templates)
 - [Github](https://github.com/FriendsOfFlarum/discussion-templates)
 - [Discuss](https://discuss.flarum.org/d/38552-fof-discussion-templates)

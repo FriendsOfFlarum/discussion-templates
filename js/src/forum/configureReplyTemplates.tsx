@@ -6,7 +6,8 @@ import DiscussionControls from 'flarum/forum/utils/DiscussionControls';
 import ReplyTemplateModal from './components/ReplyTemplateModal';
 
 export default function configureReplyTemplates() {
-  extend(ReplyComposer, 'initAttrs', function (_, attrs) {
+  // Extend ReplyComposer using string path for lazy-loaded component
+  extend('flarum/forum/components/ReplyComposer', 'initAttrs', function (_: any, attrs: any) {
     if (!attrs.originalContent) {
       attrs.originalContent = attrs.discussion.replyTemplate();
     }

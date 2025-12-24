@@ -164,6 +164,8 @@ class DiscussionReplyTemplateTest extends TestCase
             $this->request('PATCH', '/api/discussions/1', [
                 'json' => [
                     'data' => [
+                        'type' => 'discussions',
+                        'id' => '1',
                         'attributes' => [
                             'replyTemplate' => 'Guest template',
                         ],
@@ -172,7 +174,7 @@ class DiscussionReplyTemplateTest extends TestCase
             ])
         );
 
-        $this->assertContains($response->getStatusCode(), [403]);
+        $this->assertContains($response->getStatusCode(), [403, 401]);
     }
 
     #[Test]

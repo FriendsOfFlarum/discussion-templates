@@ -56,17 +56,13 @@ export default class TagTemplateModal extends FormModal<TagTemplateModalAttrs> {
 
     this.loading = true;
 
-    app
-      .request({
-        method: 'PATCH',
-        url: app.forum.attribute('apiUrl') + '/tags/' + tag.id() + '/template',
-        body: { data: { template } },
-      })
+    tag
+      .save({ template })
       .then(() => {
-        if (tag.data?.attributes) {
-          tag.data.attributes.template = template;
-        }
         app.modal.close();
+      })
+      .catch(() => {
+        this.loading = false;
       });
   }
 }

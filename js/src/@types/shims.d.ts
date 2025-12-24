@@ -1,5 +1,5 @@
 import 'flarum/common/models/Discussion';
-import 'flarum/tags/common/models/Tag';
+import 'ext:flarum/tags/common/models/Tag';
 
 declare module 'flarum/common/models/Discussion' {
   export default interface Discussion {
@@ -8,7 +8,7 @@ declare module 'flarum/common/models/Discussion' {
   }
 }
 
-declare module 'flarum/tags/common/models/Tag' {
+declare module 'ext:flarum/tags/common/models/Tag' {
   export default interface Tag {
     template(): string;
   }
