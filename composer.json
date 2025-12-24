@@ -9,7 +9,7 @@
     "support": {
         "issues": "https://github.com/FriendsOfFlarum/discussion-templates/issues",
         "source": "https://github.com/FriendsOfFlarum/discussion-templates",
-        "forum": "https://discuss.flarum.org/d/23950-discussion-templates-per-tag"
+        "forum": "https://discuss.flarum.org/d/38552-fof-discussion-templates"
     },
     "replace": {
         "askvortsov/flarum-discussion-templates": "*"

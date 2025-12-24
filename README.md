@@ -92,4 +92,4 @@ php flarum cache:clear
 
 - [Packagist](https://packagist.org/packages/FriendsOfFlarum/discussion-templates)
 - [Github](https://github.com/FriendsOfFlarum/discussion-templates)
-- [Discuss](https://discuss.flarum.org/d/23950-discussion-templates-per-tag)
+- [Discuss](https://discuss.flarum.org/d/38552-fof-discussion-templates)
