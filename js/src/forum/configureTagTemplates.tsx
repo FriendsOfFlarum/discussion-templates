@@ -84,13 +84,21 @@ export default function configureTagTemplates() {
     if (this.bodyMatches('flarum/forum/components/DiscussionComposer') && this.fields?.content().trim() === '') {
       // Only insert template if the composer is empty
 
-      if ((this.fields as any).tags) {
+      const tags = (this.fields as any).tags;
+
+      // Checked by length: the tags field is an empty array on the index page,
+      // which is truthy, so the template for no tags was never reached.
+      if (tags?.length) {
         // Insert if 1+ tags are selected
         insertTemplate(true);
-      } else if (Array.isArray((this.fields as any).tags)) {
+      } else if (Array.isArray(tags)) {
         // Insert if no tags are selected, but tags field present
         const noTagTemplate = app.forum.attribute<string>('fof-discussion-templates.no_tag_template');
         if (noTagTemplate && this.fields) {
+          // ComposerBody seeds the content from originalContent when it mounts,
+          // which wiped the template set here; as original, it also isn't
+          // treated as an unsaved change.
+          (this.body.attrs as any).originalContent = noTagTemplate;
           this.fields.content(noTagTemplate);
         }
       }
